@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="UsuarioSet" EntityType="Model.Store.UsuarioSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="HorarioSet" EntityType="Model.Store.HorarioSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MonitoriaSet" EntityType="Model.Store.MonitoriaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UsuarioSet_Monitor" EntityType="Model.Store.UsuarioSet_Monitor" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MonitoriaHorario" Association="Model.Store.MonitoriaHorario">
+      <End Role="Monitoria" EntitySet="MonitoriaSet" />
+      <End Role="Horario" EntitySet="HorarioSet" />
+    </AssociationSet>
+    <AssociationSet Name="MonitorMonitoria" Association="Model.Store.MonitorMonitoria">
+      <End Role="Monitor" EntitySet="UsuarioSet_Monitor" />
+      <End Role="Monitoria" EntitySet="MonitoriaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Monitor_inherits_Usuario" Association="Model.Store.FK_Monitor_inherits_Usuario">
+      <End Role="Usuario" EntitySet="UsuarioSet" />
+      <End Role="Monitor" EntitySet="UsuarioSet_Monitor" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UsuarioSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Senha" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Curso" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HorarioSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Inicio" Type="time" Nullable="false" />
+    <Property Name="Fim" Type="time" Nullable="false" />
+    <Property Name="Dia" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Monitoria_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MonitoriaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsuarioSet_Monitor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Monitoria_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MonitoriaHorario">
+    <End Role="Monitoria" Type="Model.Store.MonitoriaSet" Multiplicity="1" />
+    <End Role="Horario" Type="Model.Store.HorarioSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Monitoria">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Horario">
+        <PropertyRef Name="Monitoria_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MonitorMonitoria">
+    <End Role="Monitor" Type="Model.Store.UsuarioSet_Monitor" Multiplicity="*" />
+    <End Role="Monitoria" Type="Model.Store.MonitoriaSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Monitoria">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Monitor">
+        <PropertyRef Name="Monitoria_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Monitor_inherits_Usuario">
+    <End Role="Usuario" Type="Model.Store.UsuarioSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Monitor" Type="Model.Store.UsuarioSet_Monitor" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Monitor">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UsuarioSet" EntityType="Model.Usuario" />
+          <EntitySet Name="HorarioSet" EntityType="Model.Horario" />
+          <EntitySet Name="MonitoriaSet" EntityType="Model.Monitoria" />
+          <AssociationSet Name="MonitoriaHorario" Association="Model.MonitoriaHorario">
+            <End Role="Monitoria" EntitySet="MonitoriaSet" />
+            <End Role="Horario" EntitySet="HorarioSet" />
+          </AssociationSet>
+          <AssociationSet Name="MonitorMonitoria" Association="Model.MonitorMonitoria">
+            <End Role="Monitor" EntitySet="UsuarioSet" />
+            <End Role="Monitoria" EntitySet="MonitoriaSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Senha" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Curso" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Monitor" BaseType="Model.Usuario">
+          <NavigationProperty Name="Monitoria" Relationship="Model.MonitorMonitoria" FromRole="Monitor" ToRole="Monitoria" />
+        </EntityType>
+        <EntityType Name="Horario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Monitoria" Relationship="Model.MonitoriaHorario" FromRole="Horario" ToRole="Monitoria" />
+          <Property Name="Inicio" Type="Time" Nullable="false" />
+          <Property Name="Fim" Type="Time" Nullable="false" />
+          <Property Name="Dia" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Monitoria">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Horario" Relationship="Model.MonitoriaHorario" FromRole="Monitoria" ToRole="Horario" />
+          <NavigationProperty Name="Monitor" Relationship="Model.MonitorMonitoria" FromRole="Monitoria" ToRole="Monitor" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="MonitoriaHorario">
+          <End Type="Model.Monitoria" Role="Monitoria" Multiplicity="1" />
+          <End Type="Model.Horario" Role="Horario" Multiplicity="*" />
+        </Association>
+        <Association Name="MonitorMonitoria">
+          <End Type="Model.Monitor" Role="Monitor" Multiplicity="1" />
+          <End Type="Model.Monitoria" Role="Monitoria" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="ModelContainer">
+    <EntitySetMapping Name="UsuarioSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Usuario)">
+        <MappingFragment StoreEntitySet="UsuarioSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Senha" ColumnName="Senha" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Curso" ColumnName="Curso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Monitor)">
+        <MappingFragment StoreEntitySet="UsuarioSet_Monitor">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HorarioSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Horario)">
+        <MappingFragment StoreEntitySet="HorarioSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Inicio" ColumnName="Inicio" />
+          <ScalarProperty Name="Fim" ColumnName="Fim" />
+          <ScalarProperty Name="Dia" ColumnName="Dia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MonitoriaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Monitoria)">
+        <MappingFragment StoreEntitySet="MonitoriaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MonitoriaHorario" TypeName="Model.MonitoriaHorario" StoreEntitySet="HorarioSet">
+      <EndProperty Name="Monitoria">
+        <ScalarProperty Name="Id" ColumnName="Monitoria_Id" />
+      </EndProperty>
+      <EndProperty Name="Horario">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MonitorMonitoria" TypeName="Model.MonitorMonitoria" StoreEntitySet="UsuarioSet_Monitor">
+      <EndProperty Name="Monitoria">
+        <ScalarProperty Name="Id" ColumnName="Monitoria_Id" />
+      </EndProperty>
+      <EndProperty Name="Monitor">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
