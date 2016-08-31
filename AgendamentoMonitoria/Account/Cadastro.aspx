@@ -76,6 +76,14 @@
                 </div>
             </div>
             <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Docente" CssClass="col-md-2 control-label">Docente Responsável</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="Docente" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Docente"
+                    CssClass="text-danger" ErrorMessage="O campo Docente Responsável é necessário" />
+            </div>
+        </div>
+            <div class="form-group">
                 <asp:Label runat="server" AssociatedControlID="Horarios" CssClass="col-md-2 control-label">Horários da Monitoria</asp:Label>
                 <div class="col-md-10">
                     <asp:Table ID="Horarios" runat="server" BorderStyle="Solid" BorderColor="DarkGreen" CellSpacing="5" BorderWidth="5px" CellPadding="5" GridLines="Horizontal">
@@ -85,11 +93,11 @@
                             <asp:TableHeaderCell />
                             <asp:TableHeaderCell HorizontalAlign="Right">
                                 <asp:DropDownList ID="Dias" runat="server" CssClass="form-control" AutoPostBack="True">
-                                    <asp:ListItem Text="1" Value="1" Selected="True"/>
-                                    <asp:ListItem Text="2" Value="2"/>
-                                    <asp:ListItem Text="3" Value="3"/>
-                                    <asp:ListItem Text="4" Value="4"/>
-                                    <asp:ListItem Text="5" Value="5"/>
+                                    <asp:ListItem Text="1" Value="1" Selected="True" />
+                                    <asp:ListItem Text="2" Value="2" />
+                                    <asp:ListItem Text="3" Value="3" />
+                                    <asp:ListItem Text="4" Value="4" />
+                                    <asp:ListItem Text="5" Value="5" />
                                 </asp:DropDownList>
                             </asp:TableHeaderCell>
                         </asp:TableHeaderRow>

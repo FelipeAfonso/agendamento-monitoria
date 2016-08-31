@@ -35,6 +35,7 @@ public partial class Monitoria
 
     public int Id { get; set; }
     public string Nome { get; set; }
+    public string Docente { get; set; }
 
     public virtual ICollection<Horario> Horario { get; set; }
     public virtual Monitor Monitor { get; set; }

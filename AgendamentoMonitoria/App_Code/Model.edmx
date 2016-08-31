@@ -49,6 +49,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Docente" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="UsuarioSet_Monitor">
     <Key>
@@ -143,6 +144,7 @@
           <NavigationProperty Name="Horario" Relationship="Model.MonitoriaHorario" FromRole="Monitoria" ToRole="Horario" />
           <NavigationProperty Name="Monitor" Relationship="Model.MonitorMonitoria" FromRole="Monitoria" ToRole="Monitor" />
           <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Docente" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="MonitoriaHorario">
           <End Type="Model.Monitoria" Role="Monitoria" Multiplicity="1" />
@@ -189,6 +191,7 @@
         <MappingFragment StoreEntitySet="MonitoriaSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Docente" ColumnName="Docente" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

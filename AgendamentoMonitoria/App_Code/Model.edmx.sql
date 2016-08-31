@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/20/2016 02:20:59
+-- Date Created: 08/30/2016 20:39:05
 -- Generated from EDMX file: G:\AgendamentoMonitoria\App_Code\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [Database];
+USE [DatabaseNew];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -71,7 +71,8 @@ GO
 -- Creating table 'MonitoriaSet'
 CREATE TABLE [dbo].[MonitoriaSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Nome] nvarchar(max)  NOT NULL
+    [Nome] nvarchar(max)  NOT NULL,
+    [Docente] nvarchar(max)  NOT NULL
 );
 GO
 

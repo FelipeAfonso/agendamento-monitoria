@@ -20,7 +20,8 @@ public partial class Account_Register : Page {
         if (IsMonitor.Checked) {
             var horarios = new List<Horario>();
             var monitoria = new Monitoria() {
-                Nome = Disciplina.Text
+                Nome = Disciplina.Text,
+                Docente = Docente.Text
             };
             foreach (TableRow r in Horarios.Rows) {
                 if (r.GetType() == typeof(TableRow)) {
@@ -46,8 +47,14 @@ public partial class Account_Register : Page {
             monitoria.Horario = horarios;
             monitor.Monitoria = monitoria;
             monitoria.Monitor = monitor;
-            ctx.UsuarioSet.Add(monitor);
-            ctx.MonitoriaSet.Add(monitoria);
+            if (ctx.UsuarioSet.Where(u => u.Email == monitor.Email).ToList().Count == 0) {
+                ctx.UsuarioSet.Add(monitor);
+                ctx.SaveChanges();
+                Response.Redirect("/Default.aspx");
+            } else {
+                ErrorMessage.Text = "Usuario já existe";
+                ErrorMessage.Visible = true;
+            }
         } else {
             var usuario = new Usuario() {
                 Email = UserName.Text,
@@ -55,7 +62,14 @@ public partial class Account_Register : Page {
                 Curso = Curso.Text,
                 Nome = Nome.Text
             };
-            ctx.UsuarioSet.Add(usuario);
+            if (ctx.UsuarioSet.Where(u => u.Email == usuario.Email).ToList().Count == 0) {
+                ctx.UsuarioSet.Add(usuario);
+                ctx.SaveChanges();
+            } else {
+                ErrorMessage.Text = "Usuario já existe";
+                ErrorMessage.Visible = true;
+            }
+
         }
     }
     protected void IsMonitor_CheckedChanged(object sender, EventArgs e) {
