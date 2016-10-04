@@ -9,6 +9,7 @@
     <EntitySet Name="UsuarioSet" EntityType="Model.Store.UsuarioSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="HorarioSet" EntityType="Model.Store.HorarioSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MonitoriaSet" EntityType="Model.Store.MonitoriaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReservaSet" EntityType="Model.Store.ReservaSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UsuarioSet_Monitor" EntityType="Model.Store.UsuarioSet_Monitor" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="MonitoriaHorario" Association="Model.Store.MonitoriaHorario">
       <End Role="Monitoria" EntitySet="MonitoriaSet" />
@@ -17,6 +18,14 @@
     <AssociationSet Name="MonitorMonitoria" Association="Model.Store.MonitorMonitoria">
       <End Role="Monitor" EntitySet="UsuarioSet_Monitor" />
       <End Role="Monitoria" EntitySet="MonitoriaSet" />
+    </AssociationSet>
+    <AssociationSet Name="MonitoriaReserva" Association="Model.Store.MonitoriaReserva">
+      <End Role="Monitoria" EntitySet="MonitoriaSet" />
+      <End Role="Reserva" EntitySet="ReservaSet" />
+    </AssociationSet>
+    <AssociationSet Name="UsuarioReserva" Association="Model.Store.UsuarioReserva">
+      <End Role="Usuario" EntitySet="UsuarioSet" />
+      <End Role="Reserva" EntitySet="ReservaSet" />
     </AssociationSet>
     <AssociationSet Name="FK_Monitor_inherits_Usuario" Association="Model.Store.FK_Monitor_inherits_Usuario">
       <End Role="Usuario" EntitySet="UsuarioSet" />
@@ -51,6 +60,16 @@
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Docente" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="ReservaSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Horario" Type="datetime" Nullable="false" />
+    <Property Name="Duracao" Type="time" Nullable="false" />
+    <Property Name="Monitoria_Id" Type="int" Nullable="false" />
+    <Property Name="Usuario_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="UsuarioSet_Monitor">
     <Key>
       <PropertyRef Name="Id" />
@@ -79,6 +98,30 @@
       </Principal>
       <Dependent Role="Monitor">
         <PropertyRef Name="Monitoria_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MonitoriaReserva">
+    <End Role="Monitoria" Type="Model.Store.MonitoriaSet" Multiplicity="1" />
+    <End Role="Reserva" Type="Model.Store.ReservaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Monitoria">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reserva">
+        <PropertyRef Name="Monitoria_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsuarioReserva">
+    <End Role="Usuario" Type="Model.Store.UsuarioSet" Multiplicity="1" />
+    <End Role="Reserva" Type="Model.Store.ReservaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reserva">
+        <PropertyRef Name="Usuario_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -112,6 +155,15 @@
             <End Role="Monitor" EntitySet="UsuarioSet" />
             <End Role="Monitoria" EntitySet="MonitoriaSet" />
           </AssociationSet>
+          <EntitySet Name="ReservaSet" EntityType="Model.Reserva" />
+          <AssociationSet Name="MonitoriaReserva" Association="Model.MonitoriaReserva">
+            <End Role="Monitoria" EntitySet="MonitoriaSet" />
+            <End Role="Reserva" EntitySet="ReservaSet" />
+          </AssociationSet>
+          <AssociationSet Name="UsuarioReserva" Association="Model.UsuarioReserva">
+            <End Role="Usuario" EntitySet="UsuarioSet" />
+            <End Role="Reserva" EntitySet="ReservaSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -122,6 +174,7 @@
           <Property Name="Senha" Type="String" Nullable="false" />
           <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="Curso" Type="String" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Model.UsuarioReserva" FromRole="Usuario" ToRole="Reserva" />
         </EntityType>
         <EntityType Name="Monitor" BaseType="Model.Usuario">
           <NavigationProperty Name="Monitoria" Relationship="Model.MonitorMonitoria" FromRole="Monitor" ToRole="Monitoria" />
@@ -145,6 +198,7 @@
           <NavigationProperty Name="Monitor" Relationship="Model.MonitorMonitoria" FromRole="Monitoria" ToRole="Monitor" />
           <Property Name="Nome" Type="String" Nullable="false" />
           <Property Name="Docente" Type="String" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Model.MonitoriaReserva" FromRole="Monitoria" ToRole="Reserva" />
         </EntityType>
         <Association Name="MonitoriaHorario">
           <End Type="Model.Monitoria" Role="Monitoria" Multiplicity="1" />
@@ -153,6 +207,24 @@
         <Association Name="MonitorMonitoria">
           <End Type="Model.Monitor" Role="Monitor" Multiplicity="1" />
           <End Type="Model.Monitoria" Role="Monitoria" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Monitoria" Relationship="Model.MonitoriaReserva" FromRole="Reserva" ToRole="Monitoria" />
+          <Property Name="Horario" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Model.UsuarioReserva" FromRole="Reserva" ToRole="Usuario" />
+          <Property Name="Duracao" Type="Time" Nullable="false" />
+        </EntityType>
+        <Association Name="MonitoriaReserva">
+          <End Type="Model.Monitoria" Role="Monitoria" Multiplicity="1" />
+          <End Type="Model.Reserva" Role="Reserva" Multiplicity="*" />
+        </Association>
+        <Association Name="UsuarioReserva">
+          <End Type="Model.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Model.Reserva" Role="Reserva" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -195,6 +267,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ReservaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Reserva)">
+        <MappingFragment StoreEntitySet="ReservaSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Horario" ColumnName="Horario" />
+          <ScalarProperty Name="Duracao" ColumnName="Duracao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="MonitoriaHorario" TypeName="Model.MonitoriaHorario" StoreEntitySet="HorarioSet">
       <EndProperty Name="Monitoria">
         <ScalarProperty Name="Id" ColumnName="Monitoria_Id" />
@@ -208,6 +289,22 @@
         <ScalarProperty Name="Id" ColumnName="Monitoria_Id" />
       </EndProperty>
       <EndProperty Name="Monitor">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MonitoriaReserva" TypeName="Model.MonitoriaReserva" StoreEntitySet="ReservaSet">
+      <EndProperty Name="Monitoria">
+        <ScalarProperty Name="Id" ColumnName="Monitoria_Id" />
+      </EndProperty>
+      <EndProperty Name="Reserva">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UsuarioReserva" TypeName="Model.UsuarioReserva" StoreEntitySet="ReservaSet">
+      <EndProperty Name="Usuario">
+        <ScalarProperty Name="Id" ColumnName="Usuario_Id" />
+      </EndProperty>
+      <EndProperty Name="Reserva">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

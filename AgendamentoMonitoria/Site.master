@@ -6,12 +6,12 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - IFSP Monitorias</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
@@ -50,26 +50,22 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
-                        <li><a runat="server" href="~/About">Sobre</a></li>
-                        <li><a runat="server" href="~/Contact">Contato</a></li>
+                        <li><a runat="server" href="~/Monitorias">Monitorias</a></li>
+                        <li><a runat="server" href="~/Reservas" visible="false" id="ReservasLabel">Reservas</a></li>
+                        <li><a runat="server" href="~/MinhaMonitoria" visible="false" id="MyMonitoria">Minha Monitoria</a></li>
                     </ul>
-                    <asp:LoginView runat="server" ViewStateMode="Disabled">
-                        <AnonymousTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Cadastro">Cadastre-se</a></li>
-                                <li><a runat="server" href="~/Account/Login">Login</a></li>
-                            </ul>
-                        </AnonymousTemplate>
-                        <LoggedInTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.GetUserName()  %>!</a></li>
-                                <li>
-                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                                </li>
-                            </ul>
-                        </LoggedInTemplate>
-                    </asp:LoginView>
+                    <asp:Panel runat="server" ID="AnonymousSession">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a runat="server" href="~/Account/Cadastro">Cadastre-se</a></li>
+                            <li><a runat="server" href="~/Account/Login">Login</a></li>
+                        </ul>
+                    </asp:Panel>
+                    <asp:Panel runat="server" ID="LoggedSession" Visible="false">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a runat="server" href="~/Account/Atualizar">Atualizar</a></li>
+                            <li><a runat="server" href="/Default.aspx?action=dc">Desconectar</a></li>
+                        </ul>
+                    </asp:Panel>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Cadastro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Cadastro.aspx.cs" Inherits="Account_Register" %>
+﻿<%@ Page Title="Cadastro" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Atualizar.aspx.cs" Inherits="Account_Register" %>
 
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <h2>Cadastro</h2>
@@ -52,21 +52,7 @@
                     CssClass="text-danger" ErrorMessage="O campo curso é necessário" />
             </div>
         </div>
-        <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="IsMonitor" CssClass="col-md-2 control-label">É um monitor?</asp:Label>
-            <div class="col-md-10">
-                <asp:CheckBox ID="IsMonitor" runat="server" OnCheckedChanged="IsMonitor_CheckedChanged" AutoPostBack="true" />
-            </div>
-        </div>
         <asp:Panel ID="MonitorGroup" runat="server" Visible="false">
-            <div class="form-group">
-                <asp:Label runat="server" AssociatedControlID="Chave" CssClass="col-md-2 control-label">Chave de Acesso</asp:Label>
-                <div class="col-md-10">
-                    <asp:TextBox runat="server" ID="Chave" CssClass="form-control" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="Chave" ID="ChaveValidator" Enabled="false"
-                        CssClass="text-danger" ErrorMessage="O campo chave de acesso é necessário se você for um monitor" />
-                </div>
-            </div>
             <div class="form-group">
                 <asp:Label runat="server" AssociatedControlID="Disciplina" CssClass="col-md-2 control-label">Nome da Monitoria</asp:Label>
                 <div class="col-md-10">
@@ -113,7 +99,7 @@
         </asp:Panel>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <asp:Button ID="Button1" runat="server" OnClick="CreateUser_Click" Text="Cadastrar-se" CssClass="btn btn-default" />
+                <asp:Button ID="Button1" runat="server" OnClick="CreateUser_Click" Text="Atualizar" CssClass="btn btn-default" />
             </div>
         </div>
     </div>

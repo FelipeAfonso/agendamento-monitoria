@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/30/2016 20:39:05
--- Generated from EDMX file: G:\AgendamentoMonitoria\App_Code\Model.edmx
+-- Date Created: 10/04/2016 04:14:34
+-- Generated from EDMX file: F:\Projetos\AgendamentoMonitoria\App_Code\Model.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [DatabaseNew];
+USE [Database];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -22,6 +22,12 @@ IF OBJECT_ID(N'[dbo].[FK_MonitoriaHorario]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_MonitorMonitoria]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UsuarioSet_Monitor] DROP CONSTRAINT [FK_MonitorMonitoria];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MonitoriaReserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ReservaSet] DROP CONSTRAINT [FK_MonitoriaReserva];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UsuarioReserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ReservaSet] DROP CONSTRAINT [FK_UsuarioReserva];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Monitor_inherits_Usuario]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UsuarioSet_Monitor] DROP CONSTRAINT [FK_Monitor_inherits_Usuario];
@@ -39,6 +45,9 @@ IF OBJECT_ID(N'[dbo].[HorarioSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[MonitoriaSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MonitoriaSet];
+GO
+IF OBJECT_ID(N'[dbo].[ReservaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ReservaSet];
 GO
 IF OBJECT_ID(N'[dbo].[UsuarioSet_Monitor]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UsuarioSet_Monitor];
@@ -76,6 +85,16 @@ CREATE TABLE [dbo].[MonitoriaSet] (
 );
 GO
 
+-- Creating table 'ReservaSet'
+CREATE TABLE [dbo].[ReservaSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Horario] datetime  NOT NULL,
+    [Duracao] time  NOT NULL,
+    [Monitoria_Id] int  NOT NULL,
+    [Usuario_Id] int  NOT NULL
+);
+GO
+
 -- Creating table 'UsuarioSet_Monitor'
 CREATE TABLE [dbo].[UsuarioSet_Monitor] (
     [Id] int  NOT NULL,
@@ -102,6 +121,12 @@ GO
 -- Creating primary key on [Id] in table 'MonitoriaSet'
 ALTER TABLE [dbo].[MonitoriaSet]
 ADD CONSTRAINT [PK_MonitoriaSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ReservaSet'
+ALTER TABLE [dbo].[ReservaSet]
+ADD CONSTRAINT [PK_ReservaSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -143,6 +168,36 @@ GO
 CREATE INDEX [IX_FK_MonitorMonitoria]
 ON [dbo].[UsuarioSet_Monitor]
     ([Monitoria_Id]);
+GO
+
+-- Creating foreign key on [Monitoria_Id] in table 'ReservaSet'
+ALTER TABLE [dbo].[ReservaSet]
+ADD CONSTRAINT [FK_MonitoriaReserva]
+    FOREIGN KEY ([Monitoria_Id])
+    REFERENCES [dbo].[MonitoriaSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MonitoriaReserva'
+CREATE INDEX [IX_FK_MonitoriaReserva]
+ON [dbo].[ReservaSet]
+    ([Monitoria_Id]);
+GO
+
+-- Creating foreign key on [Usuario_Id] in table 'ReservaSet'
+ALTER TABLE [dbo].[ReservaSet]
+ADD CONSTRAINT [FK_UsuarioReserva]
+    FOREIGN KEY ([Usuario_Id])
+    REFERENCES [dbo].[UsuarioSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UsuarioReserva'
+CREATE INDEX [IX_FK_UsuarioReserva]
+ON [dbo].[ReservaSet]
+    ([Usuario_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'UsuarioSet_Monitor'

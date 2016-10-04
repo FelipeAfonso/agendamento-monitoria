@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
-using AgendamentoMonitoria;
+using System.Web.UI.WebControls;
 
 public partial class Account_Login : Page
 {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RegisterHyperLink.NavigateUrl = "Register";
+            if (Session["user_email"] != null) Response.Redirect("/Default");
+            RegisterHyperLink.NavigateUrl = "Cadastro";
             OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
             var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
             if (!String.IsNullOrEmpty(returnUrl))
@@ -22,19 +24,18 @@ public partial class Account_Login : Page
         {
             if (IsValid)
             {
-                // Validate the user password
-                var manager = new UserManager();
-                ApplicationUser user = manager.Find(UserName.Text, Password.Text);
-                if (user != null)
-                {
-                    IdentityHelper.SignIn(manager, user, RememberMe.Checked);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                var ctx = new ModelContainer();
+                var query = ctx.UsuarioSet.Where(o => o.Email == UserName.Text).ToList();
+                if (query.Count() > 0) {
+                    var usuario = query.First();
+                    if (usuario.Senha == Controller.getMd5(Password.Text)) {
+
+                        Session.Add("user_email", usuario.Email);
+                        Response.Redirect("/Default.aspx");
+
+                    } 
                 }
-                else
-                {
-                    FailureText.Text = "Invalid username or password.";
-                    ErrorMessage.Visible = true;
-                }
+
             }
         }
 }

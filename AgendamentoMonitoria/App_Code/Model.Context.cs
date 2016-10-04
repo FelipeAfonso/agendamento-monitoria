@@ -26,4 +26,5 @@ public partial class ModelContainer : DbContext
     public virtual DbSet<Usuario> UsuarioSet { get; set; }
     public virtual DbSet<Horario> HorarioSet { get; set; }
     public virtual DbSet<Monitoria> MonitoriaSet { get; set; }
+    public virtual DbSet<Reserva> ReservaSet { get; set; }
 }

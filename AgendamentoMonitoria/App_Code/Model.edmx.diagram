@@ -5,13 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="aa59ceec9cc143c580d2113608a676c8" Name="Diagram1" >
-        <EntityTypeShape EntityType="Model.Usuario" Width="1.5" PointX="1.875" PointY="0.625" />
-        <EntityTypeShape EntityType="Model.Monitor" Width="1.5" PointX="1.875" PointY="3.5" />
-        <EntityTypeShape EntityType="Model.Horario" Width="1.5" PointX="5.375" PointY="0.625" />
-        <EntityTypeShape EntityType="Model.Monitoria" Width="1.5" PointX="5.375" PointY="3.125" />
+        <EntityTypeShape EntityType="Model.Usuario" Width="1.5" PointX="4.625" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Monitor" Width="1.5" PointX="4.625" PointY="3.875" />
+        <EntityTypeShape EntityType="Model.Horario" Width="1.5" PointX="10.875" PointY="3" />
+        <EntityTypeShape EntityType="Model.Monitoria" Width="1.5" PointX="7.5" PointY="3" />
         <InheritanceConnector EntityType="Model.Monitor" />
         <AssociationConnector Association="Model.MonitoriaHorario" />
         <AssociationConnector Association="Model.MonitorMonitoria" />
+        <EntityTypeShape EntityType="Model.Reserva" Width="1.5" PointX="7.5" PointY="0.5" />
+        <AssociationConnector Association="Model.MonitoriaReserva" />
+        <AssociationConnector Association="Model.UsuarioReserva" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
